@@ -1,17 +1,13 @@
 from transformers import pipeline
 
 
-placeholder_text = """
-The solana coin performed exceptionally well on yesterdays market, rising 12 percent by the days close. Investors are optimistic about the future. However, there are some concerns about the sustainability of this growth. This growth may be at its peak as of today, and may experience an upcoming market correction for its currently overvalued price.
-"""
-
 def sentiment_score(text):
 
     pipe = pipeline("text-classification", model="mrm8488/distilroberta-finetuned-financial-news-sentiment-analysis", device=-1)
 
     sentences = text.split('.')
-    sentence_count = len(sentences)
     results = pipe(sentences)
+    sentence_count = len(sentences)
 
     # # Display the results
     # for sentence, result in zip(sentences, results):

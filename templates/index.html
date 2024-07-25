@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Sentiment Analysis</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Crypto Sentiment Analysis</h1>
+        <form action="{{ url_for('analyze') }}" method="post">
+            <label for="coin">Select Coin:</label>
+            <input list="coins" id="coin-input" name="coin" required>
+            <datalist id="coins">
+                <option value="Bitcoin">
+                <option value="Ethereum">
+                <option value="Solana">
+                <option value="Dogecoin">
+                <option value="Cardano">
+                <option value="Polkadot">
+                <!-- Add more options as needed -->
+            </datalist>
+            <button type="submit">Run Analysis</button>
+        </form>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

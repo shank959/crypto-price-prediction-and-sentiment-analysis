@@ -53,35 +53,38 @@ def scrape_news(coin_name, num_pages=1):
 
 def retrieve_articles(hrefs):
 
-    articles = {}
-    for title, url in hrefs.items():
-        response = requests.get(url)
-        soup = BeautifulSoup(response.content, 'html.parser')
+    try:
+        articles = {}
+        for title, url in hrefs.items():
+            response = requests.get(url)
+            soup = BeautifulSoup(response.content, 'html.parser')
 
-        article_text = []
-        article_body = soup.find('article')
-        if not article_body:
-            article_body = soup.find('div', class_=re.compile('main|content|article|body', re.I))
+            article_text = []
+            article_body = soup.find('article')
+            if not article_body:
+                article_body = soup.find('div', class_=re.compile('main|content|article|body', re.I))
 
-        if article_body:
-            paragraphs = article_body.find_all('p')
-            for paragraph in paragraphs:
-                if paragraph.string:
-                    article_text.append(paragraph.string)
+            if article_body:
+                paragraphs = article_body.find_all('p')
+                for paragraph in paragraphs:
+                    if paragraph.string:
+                        article_text.append(paragraph.string)
 
-        if not article_text:
-            # Fallback: Get all <p> tags in the document
-            paragraphs = soup.find_all('p')
-            for paragraph in paragraphs:
-                if paragraph.string:
-                    article_text.append(paragraph.string)
-        
-        if not article_text:
-            article_text = "Not Found"
+            if not article_text:
+                # Fallback: Get all <p> tags in the document
+                paragraphs = soup.find_all('p')
+                for paragraph in paragraphs:
+                    if paragraph.string:
+                        article_text.append(paragraph.string)
+            
+            if not article_text:
+                article_text = "Not Found"
 
-        articles[title] = article_text
+            articles[title] = article_text
 
-    return articles
+        return articles
+    except:
+        return None
 
 
 

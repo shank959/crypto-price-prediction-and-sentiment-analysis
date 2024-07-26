@@ -37,3 +37,4 @@ This project is designed to analyze the current sentiment of the cryptocurrency 
 2. **Access the local web address to access the home page of the application and choose the crytocurrency to be analyzed**
 
 
+<img width="1505" alt="Screenshot 2024-07-26 at 4 06 09 PM" src="https://github.com/user-attachments/assets/ea4e6c1c-639b-4be8-a2c6-85ae768afa54">

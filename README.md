@@ -30,9 +30,10 @@ This project is designed to analyze the current sentiment of the cryptocurrency 
 
 ## Usage
 
-1. **Run the main.py file that performs webscraping and sentiment analysis**
+1. **Start the Flask web application on your local device**
     ```bash
-    python main.py
+    python3 -m app
     ```
+2. **Access the local web address to access the home page of the application and choose the crytocurrency to be analyzed**
 
 

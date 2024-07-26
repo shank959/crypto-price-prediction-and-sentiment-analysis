@@ -1,5 +1,10 @@
 from transformers import pipeline
+import re
 
+def preprocess_text(text):
+    text = text.lower()
+    text = re.sub(r'[^a-z\s]', '', text)
+    return text
 
 def sentiment_scores(articles):
 
@@ -9,7 +14,7 @@ def sentiment_scores(articles):
 
     try:
         for title, body in articles.items():
-            text = f"{title}. {body}"
+            text = preprocess_text(f"{title}. {body}")
 
             sentences = text.split('.')
             results = pipe(sentences)
@@ -35,8 +40,16 @@ def sentiment_scores(articles):
                 total_confidence += confidence_score
 
             average_weighted_score = (total_weighted_score / total_confidence) if total_confidence != 0 else 0
-            
-            final_sentiment = 1 if average_weighted_score > 0 else -1 if average_weighted_score < 0 else 0
+
+            neutral_threshold_upper = 0.1   
+            neutral_threshold_lower = -0.1
+
+            if average_weighted_score > neutral_threshold_upper:
+                final_sentiment = 1
+            elif average_weighted_score < neutral_threshold_lower:
+                final_sentiment = -1
+            else:
+                final_sentiment = 0
 
             sentiment_table[title] = final_sentiment
 
@@ -56,6 +69,6 @@ def sentiment_count(sentiment_table):
             negative += 1
         else:
             neutral += 1
-    return positive, neutral, negative
+    return [positive, neutral, negative]
 
 

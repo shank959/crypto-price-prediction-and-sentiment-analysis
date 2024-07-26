@@ -85,6 +85,7 @@ def retrieve_articles(hrefs):
 
 
 
+
 if __name__ == "__main__":
     articles = scrape_news('solana', 3)
     if not articles:

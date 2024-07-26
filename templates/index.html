@@ -4,26 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crypto Sentiment Analysis</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <div class="container">
+    <div style="margin-top: 3%; margin-left: 6%;">
         <h1>Crypto Sentiment Analysis</h1>
-        <form action="{{ url_for('analyze') }}" method="post">
+        <h3>Analyze the market sentiment of recently published news articles related to various cryptocurrencies. </h3>
+        <h4>Select a coin from the dropdown menu below and click "Run Analysis" to see the sentiment breakdown for the chosen cryptocurrency.</h4>
+
+        <form action="{{ url_for('analyze') }}" method="post" style="width: 50%;">
             <label for="coin">Select Coin:</label>
             <input list="coins" id="coin-input" name="coin" required>
             <datalist id="coins">
-                <option value="Bitcoin">
-                <option value="Ethereum">
-                <option value="Solana">
-                <option value="Dogecoin">
-                <option value="Cardano">
-                <option value="Polkadot">
-                <!-- Add more options as needed -->
+                {% for coin_option in coin_options %}
+                    <option value="{{ coin_option }}">
+                {% endfor %}
             </datalist>
-            <button type="submit">Run Analysis</button>
+            <button type="submit" style="width: 25%;">Run Analysis</button>
         </form>
     </div>
-    <script src="script.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

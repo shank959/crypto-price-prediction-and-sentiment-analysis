@@ -42,13 +42,25 @@ def main():
             df = create_table_df(sentiments=sentiments)
             
             # Display results
-            st.write(f"### Sentiment Analysis Results for {coin}:")
+            st.write("")
+            st.write(f"## Sentiment Analysis Results for {coin}:")
             
             # Show sentiment counts
-            st.write("### Sentiment Counts")
-            st.write(counts)
+            st.write("#### Sentiment Counts")
+    
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                st.metric("Positve", counts[0])
+            with col2:
+                st.metric("Neutral", counts[1])
+            with col3:
+                st.metric("Negative", counts[2])
+
+
+
             
-            st.dataframe(df)  # Display list of articles
+            # Display list of articles
+            st.dataframe(df)  
 
             # Show pie chart
             st.write("### Sentiment Distribution")

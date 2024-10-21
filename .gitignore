@@ -1,0 +1,6 @@
+# Ignore venv environment files
+venv/
+.venv/
+
+# Ignore chromedriver
+chromedriver

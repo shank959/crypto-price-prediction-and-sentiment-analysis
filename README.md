@@ -30,9 +30,9 @@ This project is designed to analyze the current sentiment of the cryptocurrency 
 
 ## Usage
 
-1. **Start the Flask web application on your local device**
+1. **Start the Streamlit web application on your local device**
     ```bash
-    python3 -m app
+    streamlit run app.py
     ```
 2. **Access the local web address to access the home page of the application and choose the crytocurrency to be analyzed**
 

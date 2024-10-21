@@ -52,7 +52,6 @@ def scrape_news(coin_name, num_pages=1):
 
 
 def retrieve_articles(hrefs):
-
     try:
         articles = {}
         for title, url in hrefs.items():

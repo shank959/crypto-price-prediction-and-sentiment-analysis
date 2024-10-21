@@ -1,43 +1,59 @@
-from flask import Flask, request, render_template, redirect, url_for
+import streamlit as st
 from utils.sentiment_analysis import sentiment_scores, sentiment_count
 from utils.webscrape import scrape_news
-from utils.helper import create_pie_chart
+from utils.helper_functions import create_pie_chart, create_table_df
 
-app = Flask(__name__)
-
+# List of coin options
 coin_options = [
-        "Bitcoin",
-        "Ethereum",
-        "Solana",
-        "Dogecoin",
-        "Cardano",
-        "Tether",
-        "Tron",
-        "Polkadot",
-        "Chainlink",
-        "Polygon",
-        "Litecoin"
-    ]
+    "Bitcoin",
+    "Ethereum",
+    "Solana",
+    "Dogecoin",
+    "Cardano",
+    "Tether",
+    "Tron",
+    "Polkadot",
+    "Chainlink",
+    "Polygon",
+    "Litecoin"
+]
 
-@app.route('/')
-def index():
-    invalid = request.args.get('invalid', 'false') == 'true'
-    return render_template('index.html', coin_options=coin_options, invalid=invalid)
+# Main function for the Streamlit app
+def main():
+    st.title("Cryptocurrency Sentiment Analyzer")
+    
+    # Sidebar or Main Page: Coin selection
+    st.subheader("Select a cryptocurrency:")
+    coin = st.selectbox("Cryptocurrency", coin_options)
+    
+    # Handle invalid selection or other feedback
+    st.write("Choose a cryptocurrency to analyze sentiment from recent news articles.")
+    
+    # Form submission to analyze sentiment
+    if st.button("Analyze"):
+        articles = scrape_news(coin_name=coin, num_pages=1)
+        
+        if not articles:
+            st.error(f"No articles found for {coin}. Please try again.")
+        else:
+            # Perform sentiment analysis
+            sentiments = sentiment_scores(articles)
+            counts = sentiment_count(sentiments)
+            df = create_table_df(sentiments=sentiments)
+            
+            # Display results
+            st.write(f"### Sentiment Analysis Results for {coin}:")
+            
+            # Show sentiment counts
+            st.write("### Sentiment Counts")
+            st.write(counts)
+            
+            st.dataframe(df)  # Display list of articles
 
+            # Show pie chart
+            st.write("### Sentiment Distribution")
+            fig = create_pie_chart(counts)
+            st.plotly_chart(fig)  # Render the pie chart
 
-@app.route('/analyze', methods=['POST'])
-def analyze():
-
-    coin = request.form['coin']
-    articles = scrape_news(coin_name=coin, num_pages=3)
-    if not articles:
-        return redirect(url_for('index', invalid='true'))
-    sentiments = sentiment_scores(articles)
-    counts = sentiment_count(sentiments)
-    fig_html = create_pie_chart(counts)
-   
-    return render_template('results.html', coin=coin, sentiments=sentiments, articles=articles, counts=counts, fig_html=fig_html)
-
-
-if __name__ == '__main__':
-    app.run(debug=True, port=5001)
+if __name__ == "__main__":
+    main()

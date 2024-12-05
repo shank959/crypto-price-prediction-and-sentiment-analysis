@@ -7,6 +7,8 @@ from bs4 import BeautifulSoup
 import requests
 import re
 
+
+
 def scrape_news(coin_name, num_pages=1):
 
     # Initialize the Driver
@@ -50,6 +52,7 @@ def scrape_news(coin_name, num_pages=1):
 
 
 def retrieve_articles(hrefs):
+
     try:
         articles = {}
         for title, url in hrefs.items():
